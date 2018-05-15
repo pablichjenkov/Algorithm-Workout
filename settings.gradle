@@ -1,3 +1,4 @@
 include 'subarray-sum'
-include 'sudoku-matcher'
+include 'sudoku-first-match'
+include 'sudoku-all-matches'
 

@@ -1,4 +1,5 @@
 import javafx.util.Pair;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,15 +10,18 @@ import java.util.ArrayList;
 public class Main {
 
     static ArrayList<Pair<Integer, Integer>> fixedPoints = new ArrayList<>();
+    static ArrayList<ArrayList<ArrayList<Character>>> allMatches = new ArrayList<>();
 
     public static void main(String[] args) {
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("sudoku-matcher/input.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("sudoku-all-matches/input.txt"));
             int testCasesCount = lineToInt(br.readLine());
 
             while (testCasesCount > 0) {
                 testCasesCount --;
+                fixedPoints.clear();
+                allMatches.clear();
 
                 ArrayList<ArrayList<Character>> array = new ArrayList<>();
                 int matrixSize = lineToInt(br.readLine());
@@ -55,16 +59,19 @@ public class Main {
     }
 
     public static void solveSudoku(ArrayList<ArrayList<Character>> array) {
-        boolean found = solveSudokuRec(array, 0, -1);
-        if (found) {
-            System.out.println("Found a match");
+        solveSudokuRec(array, 0, -1);
+        if (allMatches.size() > 0) {
+            System.out.println("Found " + allMatches.size() + " matches");
+            for (ArrayList<ArrayList<Character>> match : allMatches) {
+                printMatrix(match);
+            }
         }
         else {
             System.out.println("No match was found");
         }
     }
 
-    static boolean solveSudokuRec(ArrayList<ArrayList<Character>> array, int row, int col) {
+    static void solveSudokuRec(ArrayList<ArrayList<Character>> array, int row, int col) {
 
         //printMatrix(array);
 
@@ -75,18 +82,19 @@ public class Main {
 
         sudokuSolved = rowsOk && colsOk;
         if (sudokuSolved) {
-            printMatrix(array);
-            return true;
+            //printMatrix(array);
+            allMatches.add(array);
+            //return;
         }
 
         int len = array.size();
 
 
-        int nextCol = nextCol(row, col, len);
+        int nextCol = nextCol(col, len);
         int nextRow = nextRow(row, col, len);
 
         if (nextCol >= len || nextRow >= len) {
-            return false;
+            return;
         }
 
         // Lets assume slot values go from 1 ... len.
@@ -98,14 +106,9 @@ public class Main {
                 sudoRow.set(nextCol, Character.forDigit(i, 10));
             }
 
-            sudokuSolved = solveSudokuRec(newArray, nextRow, nextCol);
-
-            if (sudokuSolved) {
-                return true;
-            }
+            solveSudokuRec(newArray, nextRow, nextCol);
         }
 
-        return false;
     }
 
     static int nextRow(int row, int col, int size) {
@@ -117,7 +120,7 @@ public class Main {
         return row;
     }
 
-    static int nextCol(int row, int col, int size) {
+    static int nextCol(int col, int size) {
         col++;
         if (col >= size) {
             return 0;
