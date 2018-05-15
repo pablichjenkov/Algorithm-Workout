@@ -1,3 +1,4 @@
+import javafx.util.Pair;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 
 public class Main {
 
+    static ArrayList<Pair<Integer, Integer>> fixedPoints = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -26,7 +28,11 @@ public class Main {
                     char[] charArray = line.toCharArray();
 
                     for (int j = 0; j < charArray.length; j+=2) {
-                        row.add(charArray[j]);
+                        char ch = charArray[j];
+                        if (ch != '.') {
+                            fixedPoints.add(new Pair<>(i, j/2));
+                        }
+                        row.add(ch);
                     }
 
                     array.add(row);
@@ -51,7 +57,10 @@ public class Main {
     public static void solveSudoku(ArrayList<ArrayList<Character>> array) {
         boolean found = solveSudokuRec(array, 0, -1);
         if (found) {
-            System.out.println("Found match");
+            System.out.println("Found a match");
+        }
+        else {
+            System.out.println("No match was found");
         }
     }
 
@@ -82,9 +91,15 @@ public class Main {
 
         // Lets assume slot values go from 1 ... len.
         for (int i=1; i<=len; i++) {
-            ArrayList<Character> sudoRow = array.get(nextRow);
-            sudoRow.set(nextCol, Character.forDigit(i, 10));
-            sudokuSolved = solveSudokuRec(array, nextRow, nextCol);
+            ArrayList<ArrayList<Character>> newArray = copyMatrix(array);
+            ArrayList<Character> sudoRow = newArray.get(nextRow);
+
+            if (!isConstrained(nextRow, nextCol)) {
+                sudoRow.set(nextCol, Character.forDigit(i, 10));
+            }
+
+            sudokuSolved = solveSudokuRec(newArray, nextRow, nextCol);
+
             if (sudokuSolved) {
                 return true;
             }
@@ -173,6 +188,15 @@ public class Main {
         }
 
         return count;
+    }
+
+    static boolean isConstrained(int row, int col) {
+        for (Pair<Integer, Integer> point : fixedPoints) {
+            if (point.getKey() == row && point.getValue() == col) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static ArrayList<ArrayList<Character>> copyMatrix(ArrayList<ArrayList<Character>> array) {
