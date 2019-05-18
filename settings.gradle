@@ -3,4 +3,5 @@ include 'sudoku-first-match'
 include 'sudoku-all-matches'
 include 'combinatory-generator'
 include 'pascal-triangle'
+include 'binary-tree-width'
 

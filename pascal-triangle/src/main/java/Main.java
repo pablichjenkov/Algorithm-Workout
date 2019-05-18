@@ -73,16 +73,4 @@ public class Main {
         return text.toString();
     }
 
-    public void printLevelInfo(List<Map.Entry<Integer, Integer>> entryList) {
-
-        for (Map.Entry<Integer, Integer> entry : entryList) {
-
-            System.out.print("Key: " + entry.getKey());
-            System.out.println(" -> Value = " + entry.getValue());
-
-        }
-
-
-    }
-
 }
