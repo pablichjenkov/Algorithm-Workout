@@ -4,4 +4,6 @@ include 'sudoku-all-matches'
 include 'combinatory-generator'
 include 'pascal-triangle'
 include 'binary-tree-width'
+include 'pascal-triangle-2'
+include 'max-min-unfairness'
 
