@@ -85,16 +85,16 @@ public class Main {
         int nextCol = nextCol(row, col, len);
         int nextRow = nextRow(row, col, len);
 
-        if (nextCol >= len || nextRow >= len) {
+        if (nextRow >= len) {
             return false;
         }
 
         // Lets assume slot values go from 1 ... len.
         for (int i=1; i<=len; i++) {
             ArrayList<ArrayList<Character>> newArray = copyMatrix(array);
-            ArrayList<Character> sudoRow = newArray.get(nextRow);
 
             if (!isConstrained(nextRow, nextCol)) {
+                ArrayList<Character> sudoRow = newArray.get(nextRow);
                 sudoRow.set(nextCol, Character.forDigit(i, 10));
             }
 

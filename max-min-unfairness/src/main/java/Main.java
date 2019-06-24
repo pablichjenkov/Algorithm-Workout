@@ -1,5 +1,9 @@
 class Main {
 
+    interface IntComparator {
+        boolean compare(int a, int b);
+    }
+
     public static void main(String[] args) {
 
         int[] array = new int[] { 10,9,8,7,6,5,4,3,2,1 };
@@ -21,8 +25,12 @@ class Main {
         //selectionSort(arr);
         //insertionSort(arr);
         //quickSort(arr);
-        arr = mergeSort(arr);
+        //arr = mergeSort(arr);
 
+        insertionSort(arr,  (a, b) -> a < b);
+        printArray(arr);
+
+        insertionSort(arr, (a, b) -> a > b);
         printArray(arr);
 
         int minDelta = Integer.MAX_VALUE;
@@ -62,7 +70,7 @@ class Main {
         }
     }
 
-    public void insertionSort(int[] array) {
+    public void insertionSort(int[] array, IntComparator comp) {
 
         int i = 1;
 
@@ -70,7 +78,7 @@ class Main {
 
             int j = i;
 
-            while (j > 0 && array[j] < array[j-1]) {
+            while (j > 0 && comp.compare(array[j], array[j-1]) ) {
 
                 swap(array, j-1, j);
                 j--;
