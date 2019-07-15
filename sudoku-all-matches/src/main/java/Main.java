@@ -23,7 +23,7 @@ public class Main {
                 fixedPoints.clear();
                 allMatches.clear();
 
-                ArrayList<ArrayList<Character>> array = new ArrayList<>();
+                ArrayList<ArrayList<Character>> matrix = new ArrayList<>();
                 int matrixSize = lineToInt(br.readLine());
 
                 for (int i = 0; i < matrixSize; i++) {
@@ -39,10 +39,10 @@ public class Main {
                         row.add(ch);
                     }
 
-                    array.add(row);
+                    matrix.add(row);
                 }
 
-                solveSudoku(array);
+                solveSudoku(matrix);
             }
 
 
@@ -59,7 +59,7 @@ public class Main {
     }
 
     public static void solveSudoku(ArrayList<ArrayList<Character>> array) {
-        solveSudokuRec(array, 0, -1);
+        solveSudokuRec(array, 0, 0);
         if (allMatches.size() > 0) {
             System.out.println("Found " + allMatches.size() + " matches");
             for (ArrayList<ArrayList<Character>> match : allMatches) {
@@ -71,42 +71,50 @@ public class Main {
         }
     }
 
-    static void solveSudokuRec(ArrayList<ArrayList<Character>> array, int row, int col) {
+    static void solveSudokuRec(ArrayList<ArrayList<Character>> matrix, int row, int col) {
 
         //printMatrix(array);
 
-        // evaluate current array, if matches a sudoku return true here.
-        boolean sudokuSolved = false;
-        boolean rowsOk = validateRows(array);
-        boolean colsOk = validateCols(array);
+        int len = matrix.size();
 
-        sudokuSolved = rowsOk && colsOk;
-        if (sudokuSolved) {
-            //printMatrix(array);
-            allMatches.add(array);
-            //return;
+        if (row >= len) {
+            return;
         }
-
-        int len = array.size();
-
 
         int nextCol = nextCol(col, len);
         int nextRow = nextRow(row, col, len);
 
-        if (nextCol >= len || nextRow >= len) {
-            return;
-        }
 
-        // Lets assume slot values go from 1 ... len.
-        for (int i=1; i<=len; i++) {
-            ArrayList<ArrayList<Character>> newArray = copyMatrix(array);
-            ArrayList<Character> sudoRow = newArray.get(nextRow);
+        if (!isConstrained(row, col)) {
 
-            if (!isConstrained(nextRow, nextCol)) {
-                sudoRow.set(nextCol, Character.forDigit(i, 10));
+            // Slot values go from 1 ... len.
+            for (int i=1; i<=len; i++) {
+
+                ArrayList<Character> curRow = matrix.get(row);
+
+                curRow.set(col, Character.forDigit(i, 10));
+
+                // evaluate current array, if matches a sudoku return true here.
+                boolean sudokuSolved = false;
+                boolean rowsOk = validateRows(matrix);
+                boolean colsOk = validateCols(matrix);
+
+                sudokuSolved = rowsOk && colsOk;
+
+                if (sudokuSolved) {
+                    //printMatrix(matrix);
+                    allMatches.add(copyMatrix(matrix));
+                }
+
+                solveSudokuRec(matrix, nextRow, nextCol);
+
             }
 
-            solveSudokuRec(newArray, nextRow, nextCol);
+        }
+        else {
+
+            solveSudokuRec(matrix, nextRow, nextCol);
+
         }
 
     }

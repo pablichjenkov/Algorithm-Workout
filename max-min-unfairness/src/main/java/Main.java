@@ -122,23 +122,23 @@ class Main {
         return mergeSortR(array, 0, array.length - 1);
     }
 
-    public int[] mergeSortR(int[] array, int left, int rigth) {
+    public int[] mergeSortR(int[] array, int left, int right) {
 
-        if (left == rigth) {
+        if (left == right) {
             return new int[] { array[left] };
         }
 
-        int diff = rigth - left;
+        int diff = right - left;
         int half = diff / 2;
 
         int[] mergedLeft = mergeSortR(array, left, left + half);
 
-        int[] mergedRigth = mergeSortR(array, left + half + 1, rigth);
+        int[] mergedRigth = mergeSortR(array, left + half + 1, right);
 
         int[] mergedAll = new int[mergedLeft.length + mergedRigth.length];
 
         int mLeftIter = 0;
-        int mRigthIter = 0;
+        int mRightIter = 0;
         int mAllIter = 0;
 
         boolean keepLooping = true;
@@ -152,22 +152,22 @@ class Main {
                 keepLoopingLeft = true;
             }
 
-            if (mRigthIter < mergedRigth.length) {
+            if (mRightIter < mergedRigth.length) {
                 keepLoopingRigth = true;
             }
 
             if (keepLoopingLeft && keepLoopingRigth) {
 
                 int leftValue = mergedLeft[mLeftIter];
-                int rigthValue = mergedRigth[mRigthIter];
+                int rightValue = mergedRigth[mRightIter];
 
-                if (leftValue < rigthValue) {
+                if (leftValue < rightValue) {
                     mergedAll[mAllIter] = leftValue;
                     mLeftIter++;
                 }
                 else {
-                    mergedAll[mAllIter] = rigthValue;
-                    mRigthIter++;
+                    mergedAll[mAllIter] = rightValue;
+                    mRightIter++;
                 }
 
             }
@@ -175,7 +175,7 @@ class Main {
                 mergedAll[mAllIter] = mergedLeft[mLeftIter++];
             }
             else if (keepLoopingRigth){
-                mergedAll[mAllIter] = mergedRigth[mRigthIter++];
+                mergedAll[mAllIter] = mergedRigth[mRightIter++];
             }
 
             mAllIter ++;
