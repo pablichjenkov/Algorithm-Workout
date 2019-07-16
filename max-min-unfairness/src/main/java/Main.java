@@ -1,9 +1,5 @@
 class Main {
 
-    interface IntComparator {
-        boolean compare(int a, int b);
-    }
-
     public static void main(String[] args) {
 
         int[] array = new int[] { 10,9,8,7,6,5,4,3,2,1 };
@@ -27,7 +23,7 @@ class Main {
         //quickSort(arr);
         //arr = mergeSort(arr);
 
-        insertionSort(arr,  (a, b) -> a < b);
+        insertionSort(arr,  (Integer a, Integer b) -> a < b);
         printArray(arr);
 
         insertionSort(arr, (a, b) -> a > b);
@@ -70,7 +66,7 @@ class Main {
         }
     }
 
-    public void insertionSort(int[] array, IntComparator comp) {
+    public void insertionSort(int[] array, Comparator<Integer> comp) {
 
         int i = 1;
 

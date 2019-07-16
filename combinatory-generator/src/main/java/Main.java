@@ -4,7 +4,7 @@ class Main {
 
     public static void main(String[] args) {
 
-        ArrayList<Integer> newAcc = new ArrayList<>();
+        ArrayList<Integer> emptyPath = new ArrayList<>();
 
         //[6,8,18,3,1]
         //[60,30,30,30,30,
@@ -32,27 +32,27 @@ class Main {
 
         Main app = new Main();
 
-        app.nextLevel(data, newAcc, 0);
+        app.nextLevel(data, emptyPath, 0);
 
     }
 
 
-    public boolean nextLevel(ArrayList<Integer> data, ArrayList<Integer> acc, int level) {
+    public boolean nextLevel(ArrayList<Integer> data, ArrayList<Integer> path, int level) {
 
-        String comb = getPrintedArray(acc);
+        String comb = getPrintedArray(path);
         System.out.println(comb);
 
-        if (validateCond(data, acc)) {
+        if (validateCond(data, path)) {
             System.out.println("Above is true");
             return true;
         }
 
         while (level < data.size()) {
 
-            ArrayList<Integer> newAcc = new ArrayList<>(acc);
-            newAcc.add(level);
+            ArrayList<Integer> newPath = new ArrayList<>(path);
+            newPath.add(level);
 
-            boolean found = nextLevel(data, newAcc, level + 1);
+            boolean found = nextLevel(data, newPath, level + 1);
 
             if (found) {
                 return true;
@@ -77,10 +77,10 @@ class Main {
         return text.toString();
     }
 
-    public boolean validateCond(ArrayList<Integer> data, ArrayList<Integer> comb) {
+    public boolean validateCond(ArrayList<Integer> data, ArrayList<Integer> combination) {
 
         int sumA = 0;
-        int lenA = comb.size();
+        int lenA = combination.size();
         int sumB = 0;
         int lenB = data.size() - lenA;
 
@@ -88,7 +88,7 @@ class Main {
 
             int nextValue = data.get(i);
 
-            if (comb.contains(i)) {
+            if (combination.contains(i)) {
                 sumA += nextValue;
             }
             else {
