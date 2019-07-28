@@ -60,7 +60,7 @@ public class Main {
 
         }
 
-        return totalCost.mod(BigInteger.valueOf(10*1000*1000L*1000L)).intValue();
+        return totalCost.mod(BigInteger.valueOf(10*1000L*1000L*1000L)).intValue();
 
     }
 
