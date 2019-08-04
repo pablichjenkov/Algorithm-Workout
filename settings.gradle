@@ -10,4 +10,5 @@ include 'board-cutting'
 include 'priyanka-toys'
 include 'chief-hopper-rec'
 include 'chief-hopper-iter'
+include 'longest-permutation'
 
