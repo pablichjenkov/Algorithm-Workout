@@ -12,4 +12,5 @@ include 'chief-hopper-rec'
 include 'chief-hopper-iter'
 include 'longest-permutation'
 include 'sherlock-the-beast'
+include 'sherlock-minmax'
 
