@@ -13,4 +13,5 @@ include 'chief-hopper-iter'
 include 'longest-permutation'
 include 'sherlock-the-beast'
 include 'sherlock-minmax'
+include 'test-comcast-1'
 
