@@ -14,4 +14,4 @@ include 'longest-permutation'
 include 'sherlock-the-beast'
 include 'sherlock-minmax'
 include 'test-comcast-1'
-
+include 'binary-search-shifted'
